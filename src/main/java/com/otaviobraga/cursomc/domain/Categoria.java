@@ -58,6 +58,6 @@ public class Categoria implements Serializable{
 		Categoria other = (Categoria) obj;
 		return Objects.equals(id, other.id);
 	}
-
+	
 
 }
