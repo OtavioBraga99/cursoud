@@ -7,7 +7,8 @@ import java.util.Objects;
 
 import org.hibernate.annotations.ManyToAny;
 
-import jakarta.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,32 +17,30 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 
 @Entity
-public class Produto implements Serializable{
+public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id 
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer Id;
 	private String nome;
 	private double preco;
-	
+
+	@JsonBackReference
 	@ManyToAny
-	@JoinTable(name = "PRODUTO-CATEGORIA",
-			joinColumns = @JoinColumn (name = "produto_id"),
-			inverseJoinColumns = @JoinColumn(name = "categoria_id")
-	)
+	@JoinTable(name = "PRODUTO-CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
-	
+
 	private Produto() {
 	}
 
 	public Produto(Integer id, String nome, double preco) {
-	
+
 		Id = id;
 		this.nome = nome;
 		this.preco = preco;
 	}
-	
+
 	public Integer getId() {
 		return Id;
 	}
@@ -90,6 +89,5 @@ public class Produto implements Serializable{
 		Produto other = (Produto) obj;
 		return Objects.equals(Id, other.Id);
 	}
-	
-	
+
 }
