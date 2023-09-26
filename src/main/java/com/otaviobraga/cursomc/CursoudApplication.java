@@ -10,10 +10,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.otaviobraga.cursomc.domain.Categoria;
 import com.otaviobraga.cursomc.domain.Cidade;
+import com.otaviobraga.cursomc.domain.Cliente;
+import com.otaviobraga.cursomc.domain.Endereco;
 import com.otaviobraga.cursomc.domain.Estado;
 import com.otaviobraga.cursomc.domain.Produto;
+import com.otaviobraga.cursomc.domain.enums.TipoCliente;
 import com.otaviobraga.cursomc.repositories.CategoriaRepository;
 import com.otaviobraga.cursomc.repositories.CidadeRepository;
+import com.otaviobraga.cursomc.repositories.ClienteRepository;
+import com.otaviobraga.cursomc.repositories.EnderecoRepository;
 import com.otaviobraga.cursomc.repositories.EstadoRepository;
 import com.otaviobraga.cursomc.repositories.ProdutoRepository;
 
@@ -28,7 +33,11 @@ public class CursoudApplication implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired 
 	private CidadeRepository cidadeRepository;
-
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoudApplication.class, args);
 	}
@@ -65,6 +74,32 @@ public class CursoudApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
-	}
+		
+		Cliente cli1 = new Cliente(
+			/* id */ null,
+				/* nome */"Maria Silva",
+					/* email */"maria@gmail.com",
+							/* CPFouCNPJ */"36378912377",
+								/* tipo */TipoCliente.PESSOA_FISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838345"));
 
+		Endereco e1 = new Endereco(
+			/* id */ null,
+				/* nome */ "Rua das Flores",
+					/* número */ "300",
+						/* complemento */ "apto 203",
+							/* bairro */ "Jardim",
+								/* cep */ "38220834",
+									/* cliente */ cli1,
+										/* cidade */ c1);
+		
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+	}
 }
