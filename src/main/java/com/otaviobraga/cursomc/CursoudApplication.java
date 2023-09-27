@@ -1,25 +1,35 @@
 package com.otaviobraga.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.repository.ListCrudRepository;
 
 import com.otaviobraga.cursomc.domain.Categoria;
 import com.otaviobraga.cursomc.domain.Cidade;
 import com.otaviobraga.cursomc.domain.Cliente;
 import com.otaviobraga.cursomc.domain.Endereco;
 import com.otaviobraga.cursomc.domain.Estado;
+import com.otaviobraga.cursomc.domain.Pagamento;
+import com.otaviobraga.cursomc.domain.PagamentoComBoleto;
+import com.otaviobraga.cursomc.domain.PagamentoComCartao;
+import com.otaviobraga.cursomc.domain.Pedido;
 import com.otaviobraga.cursomc.domain.Produto;
+import com.otaviobraga.cursomc.domain.enums.EstadoPagamento;
 import com.otaviobraga.cursomc.domain.enums.TipoCliente;
 import com.otaviobraga.cursomc.repositories.CategoriaRepository;
 import com.otaviobraga.cursomc.repositories.CidadeRepository;
 import com.otaviobraga.cursomc.repositories.ClienteRepository;
 import com.otaviobraga.cursomc.repositories.EnderecoRepository;
 import com.otaviobraga.cursomc.repositories.EstadoRepository;
+import com.otaviobraga.cursomc.repositories.PagamentoRepository;
+import com.otaviobraga.cursomc.repositories.PedidoRepository;
 import com.otaviobraga.cursomc.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -37,6 +47,10 @@ public class CursoudApplication implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoudApplication.class, args);
@@ -88,5 +102,22 @@ public class CursoudApplication implements CommandLineRunner {
 		clienteRepository.saveAll(Arrays.asList(cli1));
 
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 10:32"),
+				null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	}
 }
