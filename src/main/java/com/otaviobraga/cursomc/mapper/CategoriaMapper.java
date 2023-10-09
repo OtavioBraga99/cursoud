@@ -8,5 +8,7 @@ import com.otaviobraga.cursomc.dto.CategoriaDTO;
 @Mapper(componentModel = "spring")
 public interface CategoriaMapper extends BaseMapper<Categoria, CategoriaDTO>{
 
+	CategoriaDTO toDto(CategoriaDTO entity);
+
 
 }
