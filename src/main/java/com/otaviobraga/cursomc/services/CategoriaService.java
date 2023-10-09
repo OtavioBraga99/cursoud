@@ -1,6 +1,6 @@
 package com.otaviobraga.cursomc.services;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,7 +11,6 @@ import com.otaviobraga.cursomc.dto.CategoriaDTO;
 import com.otaviobraga.cursomc.mapper.CategoriaMapper;
 import com.otaviobraga.cursomc.repositories.CategoriaRepository;
 import com.otaviobraga.cursomc.services.exceptions.DataIntegrityException;
-import com.otaviobraga.cursomc.services.exceptions.ObjectNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -24,15 +23,8 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaMapper mapper;
 
-	public CategoriaDTO find(Integer id) {
-		Optional<Categoria> obj = repo.findById(id);
-
-		if (!obj.isPresent()) {
-			throw new ObjectNotFoundException(
-					"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName(), obj);
-		}
-
-		return mapper.toDto(obj.get());
+	public CategoriaDTO findAll(Integer id) {
+		return null;
 	}
 
 	@Transactional
@@ -45,19 +37,21 @@ public class CategoriaService {
 
 	@Transactional
 	public CategoriaDTO update(Integer id, CategoriaDTO categoriaDto) {
-		CategoriaDTO entity = find(id);
+		CategoriaDTO entity = findAll(id);
 		entity.setNome(categoriaDto.getNome());
 		entity = repo.save(entity);
 		return mapper.toDto(entity);
 	}
-
 	@Transactional
 	public void delete(Integer id) {
-		find(id);
+		findAll(id);
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos!");
 		}
+	}
+	public List<Categoria> findAll(){
+		return repo.findAll();
 	}
 }
