@@ -5,7 +5,7 @@ import com.otaviobraga.cursomc.dto.CategoriaDTO;
 
 public interface BaseMapper<E, D> {
 
-	E toEntity(D dto);
+	E toEntity(Object obj);
 	
 	D toDto(Categoria categoriaSalva);
 }

@@ -32,17 +32,17 @@ public class CategoriaService {
 	}
 
 	@Transactional
-	public CategoriaDTO insert(CategoriaDTO dto) {
-		Categoria entity = mapper.toEntity(dto);
+	public CategoriaDTO insert(Object obj) {
+		Categoria entity = mapper.toEntity(obj);
 		entity.setId(null);
 		Categoria categoriaSalva = repo.save(entity);
 		return mapper.toDto(categoriaSalva);
 	}
 
 	@Transactional
-	public CategoriaDTO update(Integer id, CategoriaDTO categoriaDto) {
+	public CategoriaDTO update(Integer id, Categoria obj) {
 		CategoriaDTO entity = findAll(id);
-		entity.setNome(categoriaDto.getNome());
+		entity.setNome(obj.getNome());
 		entity = repo.save(entity);
 		return mapper.toDto(entity);
 	}
@@ -64,5 +64,8 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of (page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	public Categoria fromDto(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 }
