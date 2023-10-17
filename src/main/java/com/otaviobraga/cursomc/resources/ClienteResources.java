@@ -1,5 +1,6 @@
 package com.otaviobraga.cursomc.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.otaviobraga.cursomc.domain.Cliente;
 import com.otaviobraga.cursomc.dto.ClienteDTO;
+import com.otaviobraga.cursomc.dto.ClienteNewDTO;
 import com.otaviobraga.cursomc.services.ClienteService;
 
 @RestController
@@ -33,8 +36,17 @@ public class ClienteResources {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		Optional<Cliente> obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
-
-		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
+	    Cliente obj = service.insert(service.fromDto(objDto));
+	    URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+	        .path("/{id}")
+	        .buildAndExpand(obj.getId())
+	        .toUri();
+	    return ResponseEntity.created(uri).build();
+	}
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody ClienteDTO objDto) {

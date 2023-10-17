@@ -29,7 +29,7 @@ public class Cliente implements Serializable {
 	private Integer id;
 	private String nome;
 	private String email;
-	private int CPFouCNPJ;
+	private String cpfOuCnpj;
 	private Integer tipo;
 
 	@JsonManagedReference
@@ -47,12 +47,12 @@ public class Cliente implements Serializable {
 	public Cliente() {
 	}
 
-	public Cliente(Integer id, String nome, String email, String CPFouCNPJ, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		CPFouCNPJ = CPFouCNPJ;
+		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo==null) ? null : tipo.getCod();
 	}
 
@@ -80,12 +80,12 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	public int getCPFouCNPJ() {
-		return CPFouCNPJ;
+	public String getcpfOuCnpj() {
+		return cpfOuCnpj;
 	}
 
-	public void setCPFouCNPJ(int cPFouCNPJ) {
-		CPFouCNPJ = cPFouCNPJ;
+	public void setcpfOuCnpj(String cPFouCNPJ) {
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public TipoCliente getTipo() {

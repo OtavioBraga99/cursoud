@@ -9,4 +9,6 @@ import com.otaviobraga.cursomc.domain.Cidade;
 
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Integer> {
+
+	Cidade findOne(Integer cidadeId);
 }
