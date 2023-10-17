@@ -1,13 +1,24 @@
 package com.otaviobraga.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.otaviobraga.cursomc.domain.Cliente;
+import com.otaviobraga.cursomc.dto.ClienteDTO;
+import com.otaviobraga.cursomc.mapper.ClienteMapper;
 import com.otaviobraga.cursomc.repositories.ClienteRepository;
+import com.otaviobraga.cursomc.services.exceptions.DataIntegrityException;
 import com.otaviobraga.cursomc.services.exceptions.ObjectNotFoundException;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class ClienteService {
@@ -16,13 +27,56 @@ public class ClienteService {
 	private ClienteRepository repo;
 
 	public Optional<Cliente> find(Integer id) {
-	    Optional<Cliente> obj = repo.findById(id);
-	    
-	    if (!obj.isPresent()) {
-	        throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName(), obj);
-	    }
-	    
-	    return obj;
+		Optional<Cliente> obj = repo.findById(id);
+
+		if (!obj.isPresent()) {
+			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName(),
+					obj);
+		}
+
+		return obj;
 	}
 
+	@Transactional
+	public ClienteDTO update(Integer id, Cliente obj) {
+	    Optional<Cliente> optionalCliente = find(id);
+	    
+	    if (optionalCliente.isPresent()) {
+	        Cliente entity = optionalCliente.get(); 
+	        entity.setNome(obj.getNome());
+	        entity = repo.save(entity); 
+	        return ClienteMapper.toDto(entity);
+	    } else {
+	        throw new ObjectNotFoundException("Cliente não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName());
+	    }
+	}
+
+	@Transactional
+	public void delete(Integer id) {
+		find(id); 
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException(
+					"Não é possível excluir o cliente, pois ele está associado a outros objetos.");
+		}
+	}
+
+	public List<ClienteDTO> findAll() {
+	    List<Cliente> entities = repo.findAll();
+	    return entities.stream()
+	            .map(ClienteMapper::toDto) 
+	            .collect(Collectors
+	            .toList());
+	}
+
+	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
+	}
+
+	public Cliente fromDto(ClienteDTO objDto) {
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+	}
+	
 }
