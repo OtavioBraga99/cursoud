@@ -7,7 +7,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 
 import com.otaviobraga.cursomc.domain.Categoria;
@@ -15,6 +14,7 @@ import com.otaviobraga.cursomc.dto.CategoriaDTO;
 import com.otaviobraga.cursomc.mapper.CategoriaMapper;
 import com.otaviobraga.cursomc.repositories.CategoriaRepository;
 import com.otaviobraga.cursomc.services.exceptions.DataIntegrityException;
+import com.otaviobraga.cursomc.services.exceptions.ObjectNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -41,10 +41,16 @@ public class CategoriaService {
 
 	@Transactional
 	public CategoriaDTO update(Integer id, Categoria obj) {
-		CategoriaDTO entity = findAll(id);
-		entity.setNome(obj.getNome());
-		entity = repo.save(entity);
-		return mapper.toDto(entity);
+	    CategoriaDTO existingCategoria = findAll(id);
+
+	    if (existingCategoria != null) {
+	        existingCategoria.setNome(obj.getNome());
+	        Categoria entity = mapper.toEntity(existingCategoria);
+	        entity = repo.save(entity);
+	        return mapper.toDto(entity);
+	    } else {
+	        throw new ObjectNotFoundException("Categoria não encontrada! Id: " + id + ", Tipo: " + CategoriaDTO.class.getName());
+	    }
 	}
 
 	@Transactional

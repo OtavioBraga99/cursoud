@@ -5,8 +5,6 @@ import com.otaviobraga.cursomc.dto.ClienteDTO;
 
 public class ClienteMapper {
 	
-	
-	
 	 public static ClienteDTO toDto(Cliente cliente) {
 	        ClienteDTO clienteDTO = new ClienteDTO(cliente);
 	        clienteDTO.setId(cliente.getId());
