@@ -2,6 +2,7 @@ package com.otaviobraga.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
