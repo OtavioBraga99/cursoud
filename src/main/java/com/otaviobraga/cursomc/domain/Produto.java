@@ -25,7 +25,7 @@ public class Produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer Id;
+	private Integer id;
 	private String nome;
 	private double preco;
 
@@ -43,7 +43,7 @@ public class Produto implements Serializable {
 
 	public Produto(Integer id, String nome, double preco) {
 
-		Id = id;
+		id = id;
 		this.nome = nome;
 		this.preco = preco;
 	}
@@ -57,12 +57,12 @@ public class Produto implements Serializable {
 		return lista;
 	}
 
-	public Integer getId() {
-		return Id;
+	public Integer getid() {
+		return id;
 	}
 
-	public void setId(Integer id) {
-		Id = id;
+	public void setid(Integer id) {
+		id = id;
 	}
 
 	public String getNome() {
@@ -99,7 +99,7 @@ public class Produto implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class Produto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
-		return Objects.equals(Id, other.Id);
+		return Objects.equals(id, other.id);
 	}
 
 }
