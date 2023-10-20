@@ -1,0 +1,29 @@
+[33ma37e5b5[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m Busca de produtos por nome e categoria
+[33m1f956e9[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m validacao custumizada: email nao repetido na atualizacao de cliente
+[33mb92b2aa[m validacao custumizada: email nao repetido na insercao de cliente
+[33m2125ab7[m Validacao custumizada de CPF ou CNPJ na insercao de cliente
+[33m7aeba1e[m Ajustando e testando a delecao de cliente
+[33m13c68bd[m Inserindo um novo cliente com POST
+[33mac882d1[m Correcoes em update em CategoriaService e construtor em Pagamento
+[33me9ea0a3[m PUT, DELETE, e GET para cliente
+[33m89a738e[m Personalizando a retorno da validacao
+[33ma84e433[m Validacao sintatica com Bean Validation
+[33mded3cc5[m Paginacao com parametros opcionais na requisicao
+[33m126f9aa[m Listando todas as categorias com DTO
+[33m5ee1f82[m Deletando categoria com DELETE
+[33ma2bb5a0[m Atualizando categoria com PUT, com pequenos ajustes
+[33m29f268d[m Inserindo uma nova categoria com o Post
+[33m370feda[m Endpoint /pedidos /{id} disponibilizado
+[33m392a0fe[m ItemPedido e ItemPedidosPK
+[33m3b5d046[m Pedido, EstadoPagamento e Pagamento
+[33m9513ae6[m End point /{id} disponivel
+[33m71d5c1e[m Cliente, TipoCliente, telefones e enderecos
+[33m1d33f97[m Estado e cidade
+[33m2bdb5a2[m Adicao do repository
+[33m98d7033[m Produtos e associacao muitos para muitos
+[33mc643b7c[m Criando operacao de instaciacao
+[33m140e0d4[m Criando repository e service para Categoria
+[33m8e0d644[m Banco de dados h2 e criação automatica da base de dados
+[33md799664[m Testando a primeira classe de dominio - Categoria
+[33m14c32b2[m REST testado
+[33m286ba1f[m Projeto criado
