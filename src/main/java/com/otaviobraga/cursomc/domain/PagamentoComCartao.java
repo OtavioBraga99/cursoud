@@ -2,11 +2,13 @@ package com.otaviobraga.cursomc.domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.otaviobraga.cursomc.domain.enums.EstadoPagamento;
 
 import jakarta.persistence.Entity;
 
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento implements Serializable{
 	private static final long serialVersionUID = 1L;
 
