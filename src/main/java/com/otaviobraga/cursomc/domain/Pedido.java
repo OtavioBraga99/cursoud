@@ -2,11 +2,14 @@ package com.otaviobraga.cursomc.domain;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+
+import org.hibernate.dialect.SimpleDatabaseVersion;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -136,10 +139,11 @@ public class Pedido implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 		builder.append("Pedido número: ");
 		builder.append(getId());
 		builder.append(", Instante: ");
-		builder.append(getInstante());
+		builder.append(sdf.format(getInstante()));
 		builder.append(", Cliente: ");
 		builder.append(getCliente().getNome());
 		builder.append(", Situação do pagamento: ");
