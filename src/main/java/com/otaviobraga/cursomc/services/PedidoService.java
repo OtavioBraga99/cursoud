@@ -15,7 +15,6 @@ import com.otaviobraga.cursomc.domain.enums.EstadoPagamento;
 import com.otaviobraga.cursomc.repositories.ItemPedidoRepository;
 import com.otaviobraga.cursomc.repositories.PagamentoRepository;
 import com.otaviobraga.cursomc.repositories.PedidoRepository;
-import com.otaviobraga.cursomc.repositories.ProdutoRepository;
 import com.otaviobraga.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -38,7 +37,7 @@ public class PedidoService {
 
 	@Autowired
 	private ProdutoService produtoService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -49,7 +48,6 @@ public class PedidoService {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName(),
 					obj);
 		}
-
 		return obj;
 	}
 
